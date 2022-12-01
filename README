@@ -1,0 +1,24 @@
+Supervised Models:
+Logistic Regression (LR)
+Support Vector Machines(SVC)
+Linear SVC
+Random Forests (RF)
+Isolation Forests (F)
+Gradient Boosting Classifiers (GBC)
+
+Unsupervised Models:
+Elliptic Envelope (EE),
+One Class SVM
+One Class SVM SGD
+Local Outlier Factor (LOF)
+
+Baseline
+
+These models encompass tree based models, penalizing techniques, and anomaly detection models,
+**maximize AUC score on the train set using 5-fold cross validation**
+
+
+    #
+    # # **this requires a different model** model for predict discharge_score_by_symptom (all_data_admissions)
+    # features, labels = get_features_labels(df_all, 'all_data_admissions', 'symptom_diff')
+    # # run_random_forest_model(features, labels, 'predict_diff_score_by_symptom_w_all_admissions')
