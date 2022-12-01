@@ -1,4 +1,4 @@
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import RandomForestClassifier
 from ml_helpers import *
 from metric_outputs import *
 
@@ -7,14 +7,15 @@ def run_random_forest_model(features, labels, name, baseline=False, supress_debu
 
     if baseline:
         predictions = get_baseline_predictions(test_features)
-        get_errors_and_accuracy(predictions, test_features, test_labels, 'BASELINE_'+str(name), rf=None)
+        get_errors_and_accuracy_regression(predictions, test_labels, 'BASELINE_' + str(name))
         print()
 
-    rf = RandomForestRegressor(n_estimators=1000, random_state=42, oob_score=True, bootstrap=True)
+    rf = RandomForestClassifier(n_estimators=1000, random_state=42, bootstrap=True)
     rf.fit(train_features, train_labels)
     predictions = rf.predict(test_features)
+    # print(predictions)
 
-    get_errors_and_accuracy(predictions, test_features, test_labels, name, rf)
+    get_errors_and_accuracy_regression(predictions, test_labels, name)
     generate_and_save_rf_importances(train_features, name, rf)
 
     if not supress_debug:

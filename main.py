@@ -1,6 +1,8 @@
 from data_cleaning import *
 from metric_outputs import get_SI_metrics
-from rf_SI import *
+from rf_SHI import *
+from lr_SHI import *
+from gbc_SHI import *
 from rf_treatment_improvement import *
 
 if __name__ == "__main__":
@@ -21,5 +23,7 @@ if __name__ == "__main__":
     df_all = calculate_PTSD_scores_add_to_and_return_new_dataframe(df_merged)
     # get_admissions_discharge_score_metrics(df_all)
 
-    run_SI_models(df_all)
-    run_treatment_improvement_models(df_all)
+    run_SHI_rf_models(df_all)
+    run_SHI_lr_models(df_all)
+    run_SHI_gbc_models(df_all)
+    # run_treatment_improvement_models(df_all)
