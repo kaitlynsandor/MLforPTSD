@@ -18,6 +18,6 @@ def run_SHI_rf_models(df_all):
     print('SELF HARM IDEATION MODELS RANDOM FOREST CLASSIFIER')
     print('*' * 50)
 
-    # predict_SI_pre_treatment(df_all)
+    predict_SI_pre_treatment(df_all)
     # predict_SI_post_treatment_w_pre_SI(df_all)
     predict_SI_post_treatment_wo_pre_SI(df_all)

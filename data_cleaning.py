@@ -13,12 +13,7 @@ def remove_unnecessary_columns(input_file):
         data.pop(column)
 
     # drop the row if any of the values are null
-    data_new = data.dropna(thresh=data.shape[1], axis=0)
-    # num_items_dropped = data.shape[0] - data_new.shape[0]
-    # print('Total Data Points: ' + str(data.shape[0]))
-    # print('Usable Data Points ' + str(data_new.shape[0]))
-    # print('\nThis many rows had a null value ' + str(num_items_dropped))
-    return data_new
+    return data
 
 def find_unnecessary_columns(input_file):
     data = pd.read_csv(input_file)

@@ -30,7 +30,7 @@ def run_treatment_improvement_models(df_all):
     print('*' * 50)
     print('TREATMENT IMPROVEMENT MODELS')
     print('*' * 50)
-    predict_diff_score_w_all_admissions(df_all)
+    # predict_diff_score_w_all_admissions(df_all)
     # predict_diff_score_w_admissions_score(df_all)
     #
     # predict_discharge_score_w_all_admissions(df_all)

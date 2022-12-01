@@ -24,6 +24,6 @@ if __name__ == "__main__":
     # get_admissions_discharge_score_metrics(df_all)
 
     run_SHI_rf_models(df_all)
-    run_SHI_lr_models(df_all)
-    run_SHI_gbc_models(df_all)
-    # run_treatment_improvement_models(df_all)
+    # run_SHI_lr_models(df_all)
+    # run_SHI_gbc_models(df_all)
+    run_treatment_improvement_models(df_all)
