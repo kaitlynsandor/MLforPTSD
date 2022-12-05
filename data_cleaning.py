@@ -13,6 +13,8 @@ def remove_unnecessary_columns(input_file):
         data.pop(column)
 
     # drop the row if any of the values are null
+    # data_new = data.dropna(thresh=data.shape[1], axis=0)
+    data = data.dropna()
     return data
 
 def find_unnecessary_columns(input_file):
@@ -27,6 +29,8 @@ def find_unnecessary_columns(input_file):
             necessary_columns.remove(string)
         elif string_arr[0] == 'D' and ((int(string[1:]) > 27 or int(string[1:]) < 8) and int(string[1:]) != 60):
             necessary_columns.remove(string)
+        # elif string_arr[0] == "A" and ((int(string[1:]) > 62 or int(string[1:]) < 27) and int(string[1:]) != 99 and not (int(string[1:]) < 106 and int(string[1:]) > 91)):
+        #     necessary_columns.remove(string)
         elif string_arr[0] == "A" and ((int(string[1:]) > 46 or int(string[1:]) < 27) and int(string[1:]) != 99):
             necessary_columns.remove(string)
     return list(set(all_cols) - set(necessary_columns))
@@ -50,6 +54,7 @@ def calculate_PTSD_scores_add_to_and_return_new_dataframe(df):
     diff_scores = []
     healeds = []
     inputs_omitteds = []
+    SHI_positivity = []
 
     for index, row in df.iterrows():
         admissions_score = 0  # the admissions and dischrage score only take into account scores for which there is both an
@@ -65,6 +70,11 @@ def calculate_PTSD_scores_add_to_and_return_new_dataframe(df):
                 discharge_score += row[map_admissions_cols[key]]
             else:
                 inputs_omitted += 1
+
+        if row['D60'] > 1:
+            SHI_positivity.append(1)
+        else:
+            SHI_positivity.append(0)
 
         if admissions_score - discharge_score > 0:
             respond = 1
@@ -84,10 +94,12 @@ def calculate_PTSD_scores_add_to_and_return_new_dataframe(df):
         diff_scores.append(diff_score)
         healeds.append(healed)
         inputs_omitteds.append(inputs_omitted)
+
     df['admissions_score'] = admissions_scores
     df['discharge_score'] = discharge_scores
     df['respond'] = responds
     df['healed'] = healeds
     df['diff_score'] = diff_scores
     df['inputs_omitted'] = inputs_omitteds
+    df['SHI_positivity'] = SHI_positivity
     return df

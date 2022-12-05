@@ -2,12 +2,13 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import confusion_matrix, classification_report, r2_score
 from sklearn.utils import resample
+from matplotlib import pyplot as plt
 import numpy as np
 import math
 from sklearn.metrics import confusion_matrix, precision_recall_fscore_support,\
 classification_report, roc_auc_score, f1_score, mean_absolute_error, mean_squared_error, accuracy_score
 
-def get_features_labels(df_input, input, output, includePreSI=False):
+def get_features_labels_all_admissions_PCL(df_input, input, output, includePreSI=False):
     df = df_input[:]
     if input == 'all_data_admissions':
         strings = df.columns.tolist()
@@ -16,6 +17,8 @@ def get_features_labels(df_input, input, output, includePreSI=False):
             string_arr = list(string)
             if string == output:
                 pass
+            elif string == 'admissions_score':
+                strs.remove(string)
             elif string_arr[0] != 'A':
                 strs.remove(string)
             elif int(string[1:]) == 99 and not includePreSI:
@@ -25,16 +28,10 @@ def get_features_labels(df_input, input, output, includePreSI=False):
             df.pop(column)
         df = df.dropna(thresh=df.shape[1], axis=0)
         labels = df.loc[:, output]
+
         df.pop(output)
         features = df
         return features, labels
-    else:
-        # features = df[['admissions_score', 'inputs_omitted']].copy()
-        # df = df.dropna(thresh=df.shape[1], axis=0)
-        # features = df[['admissions_score']].copy()
-        # labels = df.loc[:, output]
-        # return features, labels
-        pass
 
 def split_training_test(features, labels):
     train_features, test_features, train_labels, test_labels = train_test_split(features, labels, test_size=0.25,
@@ -83,7 +80,7 @@ def get_errors_and_accuracy_regression(predictions, test_labels, name):
     error_percents = []
     for i in range(len(test_labels)):
         diff = abs(test_labels[i] - predictions[i])
-        error_per = float(diff) / test_labels[i] * 100
+        error_per = float(diff) / 4.0 * 100
         # if error_per > 49:
         #     print(test_labels[i] , predictions[i])
         # elif test_labels[i] > 1:
@@ -93,7 +90,7 @@ def get_errors_and_accuracy_regression(predictions, test_labels, name):
     mape2 = round(float(sum(error_percents))/len(error_percents), 2)
     mape = np.mean((np.abs(predictions - test_labels) / test_labels) * 100)
     # print(error_percents)
-    print("MAPE: " + str(mape2))
+    print("MAPE: " + str(mape))
     print('Mean Absolute Error:' + name + ':', round(float(errors.mean()), 2), 'points')
     # print('MAE: ', mean_absolute_error(predictions, test_labels))
     print('MSE: ', mean_squared_error(predictions, test_labels))
